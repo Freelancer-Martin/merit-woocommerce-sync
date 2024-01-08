@@ -122,10 +122,6 @@ class Plugin_Name {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/metaboxes/merit-aktiva-options.php';
 
-        /**
-         * The class responsible for defining all actions that occur in the admin area.
-         */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-get-all-woocommerce-orders.php';
 
         /**
          * The class responsible for defining all actions that occur in the admin area.
@@ -135,12 +131,17 @@ class Plugin_Name {
         /**
          * The class responsible for defining all actions that occur in the admin area.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class_meritAPI_create_invoice.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-meritAPI-create-invoice.php';
 
         /**
          * The class responsible for defining all actions that occur in the admin area.
          */
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class_filter_invocies_and_create_invoice.php';
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-filter-invocies-and-create-invoice.php';
+
+        /**
+         * The class responsible for defining all actions that occur in the admin area.
+         */
+        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/woocommerce-extra-fields.php';
 
         /**
 		 * The class responsible for defining all actions that occur in the public-facing
