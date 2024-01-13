@@ -8,6 +8,7 @@ class Merit_AktivaAPI_Filter_Invocies {
         add_action( 'current_screen', array($this, 'Filter_Woocommerce_Meritaktiva_Invoices') );
         $this->api_key = get_option('apikey_text_field');
         $this->payment_status = get_option('payment_status_select_field');
+        $this->invoices_per_page = get_option('invoices_per_page_select_field');
     }
 
     public function init() {
@@ -39,18 +40,20 @@ class Merit_AktivaAPI_Filter_Invocies {
                     $filtered_invoice_array = wc_get_order($order->id);
                     $meritAPI_request = $MeritGetAllInvoices->make_api_request();
 
-                        if (is_array($MeritGetAllInvoices->make_api_request())) {
-                            if (!in_array($order->id, $meritAPI_request['invoicenr']) || !in_array($order->get_total(), $meritAPI_request['totalamount'])) {
-                                if ($this->payment_status == $order->get_status() || $this->payment_status == 'all'){
-                                    $ClassCreateInvoice->create_invoice($filtered_invoice_array);
-                                }
-                             }
-                         }
+                    if (is_array($MeritGetAllInvoices->make_api_request())) {
+                        if (!in_array($order->id, $meritAPI_request['invoicenr']) || !in_array($order->get_total(), $meritAPI_request['totalamount'])) {
+                            if ($this->payment_status == $order->get_status() || $this->payment_status == 'all') {
+                                $ClassCreateInvoice->create_invoice($filtered_invoice_array);
+                            }
+                        }
                     }
-                 }
 
-             }
+                }
+            }
+        }
+
     }
+
 
 
 

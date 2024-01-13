@@ -58,6 +58,7 @@ class Merit_Aktiva_Settings {
             'tax_select_field',
             array($this, 'sanitize_text_field'));
 
+
         // Payment Status Select Field
         add_settings_field(
             'payment_status_select_field',
@@ -81,6 +82,7 @@ class Merit_Aktiva_Settings {
         $value = get_option('apikey_text_field');
         echo '<input type="text" name="apikey_text_field" value="' . esc_attr($value) . '" />';
     }
+
 
     public function select_field_callback() {
         $value = get_option('tax_select_field');

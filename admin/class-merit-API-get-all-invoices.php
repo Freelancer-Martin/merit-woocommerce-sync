@@ -52,14 +52,17 @@ class Get_All_Merit_Invoices {
             $decode_json = json_decode($body);
             $InvoiceNumberArray = [];
             $TotalAmountArray = [];
+            $InvoiceID = [];
             foreach ( $decode_json as $json_array_nr => $json_array)
             {
                 array_push($InvoiceNumberArray,$json_array->InvoiceNo);
                 array_push($TotalAmountArray,$json_array->TotalAmount);
+                $InvoiceID[$json_array->InvoiceNo] = $json_array->SIHId;
+                //array_push($InvoiceID,$json_array->SIHId);
 
             }
 
-            return array('invoicenr' => $InvoiceNumberArray, 'totalamount' => $TotalAmountArray);
+            return array('invoiceid' => $InvoiceID, 'invoicenr' =>  $InvoiceNumberArray, 'totalamount' => $TotalAmountArray);
         }
     }
 }
