@@ -68,7 +68,7 @@ class Merit_AktivaAPI_Create_Invoice {
                     "Name" => $order->get_billing_company(),
                     "RegNo" => get_post_meta($order->id, 'Register_code', true),
                     "NotTDCustomer" => false,
-                    "VatRegNo" => "11223344",
+                    "VatRegNo" => get_post_meta($order->id, 'Register_code', true),
                     "CurrencyCode" => $order->get_currency(),
                     "PaymentDeadLine" => 7,
                     "OverDueCharge" => 0,

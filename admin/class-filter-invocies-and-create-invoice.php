@@ -27,15 +27,16 @@ class Merit_AktivaAPI_Filter_Invocies {
 
         $order_query = new WC_Order_Query($args);
         $orders = $order_query->get_orders();
-
-        // Create an instance of the Get_All_Woocommerce_Invocies class
-        $ClassCreateInvoice = new Merit_AktivaAPI_Create_Invoice();
-        $MeritGetAllInvoices = new Get_All_Merit_Invoices();
         $screen = get_current_screen();
 
 
         if (isset($screen->base)) {
             if ($screen->base == "dashboard") {
+
+                // Create an instance of the Get_All_Woocommerce_Invocies class
+                $ClassCreateInvoice = new Merit_AktivaAPI_Create_Invoice();
+                $MeritGetAllInvoices = new Get_All_Merit_Invoices();
+
                 foreach ($orders as $orderID => $order) {
                     $filtered_invoice_array = wc_get_order($order->id);
                     $meritAPI_request = $MeritGetAllInvoices->make_api_request();

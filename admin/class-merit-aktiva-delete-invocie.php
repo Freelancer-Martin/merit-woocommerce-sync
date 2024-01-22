@@ -7,7 +7,7 @@ class Delete_Merit_Invoices {
 
         add_action('current_screen', array($this, 'filter_trash_invoices') );
         add_action('admin_init', array($this, 'filter_trash_invoices'));
-        add_action('init', array($this, 'delete_trash_invoices'));
+        add_action('admin_init', array($this, 'delete_trash_invoices'));
         add_action('plugins_loaded', array($this, 'init'));
         $this->api_key = get_option('apikey_text_field');
 
@@ -42,30 +42,42 @@ class Delete_Merit_Invoices {
             'posts_per_page' => -1, // Retrieve all trashed orders
         );
 
-        // Create a new WP_Query instance
-        $trashed_orders_query = new WP_Query( $args );
-
-        $orders = $trashed_orders_query->posts;
-
-        $MeritGetAllInvoices = new Get_All_Merit_Invoices();
-
+        $screen = get_current_screen();
         $invoicenr_array = [];
+        //if (isset($screen->base)) {
+            //if ($screen->base == "edit") {
+                // Create a new WP_Query instance
+                $trashed_orders_query = new WP_Query( $args );
+
+                $orders = $trashed_orders_query->posts;
+
+                $MeritGetAllInvoices = new Get_All_Merit_Invoices();
 
 
-            foreach ($orders as $orderID => $order) {
 
-                $meritAPI_request = $MeritGetAllInvoices->make_api_request();
-                if(isset($order) && isset($meritAPI_request['invoiceid'])) {
-                    if (is_array($MeritGetAllInvoices->make_api_request())) {
-                        if (in_array($order->ID, array_keys($meritAPI_request['invoiceid']))) {
+                print_r('<pre style="margin-left:40%" >');
+                //print_r($screen);
+                print_r('</pre>');
 
-                            array_push($invoicenr_array, $meritAPI_request['invoiceid'][$order->ID]);
+                if (!empty($orders)) {
+                    foreach ($orders as $orderID => $order) {
 
+                        $meritAPI_request = $MeritGetAllInvoices->make_api_request();
+
+                        if (isset($order) && isset($meritAPI_request['invoiceid'])) {
+                            if (is_array($MeritGetAllInvoices->make_api_request())) {
+                                if (in_array($order->ID, array_keys($meritAPI_request['invoiceid']))) {
+
+                                    array_push($invoicenr_array, $meritAPI_request['invoiceid'][$order->ID]);
+
+                                }
+                            }
                         }
+
                     }
                 }
-            }
-
+            //}
+        //}
         return $invoicenr_array;
 
     }
@@ -95,9 +107,11 @@ class Delete_Merit_Invoices {
                 'headers' => array('Content-Type' => 'application/json'),
                 'method' => 'POST',
             );
+            //if(!empty($invoiceSIHID_array)){
+                // Make the POST request
+                $response = wp_remote_request($request_url, $request_args);
 
-            // Make the POST request
-            $response = wp_remote_request($request_url, $request_args);
+            //}
 
             if (is_wp_error($response)) {
                 // Handle error
@@ -113,6 +127,7 @@ class Delete_Merit_Invoices {
         }
 
     }
+
 }
 
 
